@@ -1,30 +1,40 @@
 FROM ubuntu:bionic
+#FROM codercom/code-server:latest
 
 RUN apt-get update && \
   apt-get install -y curl gnupg2 apt-transport-https maven gradle openjdk-11-jdk-headless rsync git && \
-  curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get update && apt-get install -y yarn build-essential && \
   rm -rf /var/lib/apt/lists/*
-# See : https://github.com/theia-ide/theia-apps/issues/34
+
+SHELL ["/bin/bash", "-c"]
+ENV SHELL=/bin/bash
+
+RUN set -euo pipefail && curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 3.6.1
+
 ARG uid=1000
-RUN adduser --uid $uid --disabled-password --gecos '' theia
+RUN adduser --uid $uid --disabled-password --gecos '' coder
+
+ADD settings.json /home/coder/.local/share/code-server/User/settings.json
+
 RUN chmod g+rw /home && \
     mkdir -p /home/project && \
-    chown -R theia:theia /home/theia && \
-    chown -R theia:theia /home/project;
-WORKDIR /home/theia
-USER theia
+    chown -R coder:coder /home/coder && \
+    chown -R coder:coder /home/project
 
-ADD package.json ./package.json
-RUN yarn --cache-folder ./ycache && rm -rf ./ycache && \
-    NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
-    yarn theia download:plugins
+USER coder
+
+# This needs to be run as the user
+RUN /usr/bin/code-server --install-extension vscjava.vscode-java-pack
+
+RUN git config --global credential.helper cache
+
+COPY entrypoint.sh /home/coder/entrypoint.sh
+
+WORKDIR /home/project
+VOLUME /home/project
+
 EXPOSE 3000
-ENV SHELL=/bin/bash \
-    THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
-ENTRYPOINT [ "yarn", "theia", "start", "/home/project", "--hostname=0.0.0.0" ]
+
+ENTRYPOINT [ "/home/coder/entrypoint.sh" ]
 
 #RUN set -o pipefail \
 # && mkdir -p wpilib/2020 \
@@ -32,5 +42,5 @@ ENTRYPOINT [ "yarn", "theia", "start", "/home/project", "--hostname=0.0.0.0" ]
 #  | tar -xzC wpilib/2020
 #
 #RUN cd wpilib/2020/tools && python3 ToolsUpdater.py
-
-VOLUME /home/project
+#
+#RUN /usr/bin/code-server --install-extension wpilib/2020/vsCodeExtensions/WPILib.vsix

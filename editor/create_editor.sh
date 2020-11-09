@@ -19,7 +19,7 @@ if [ -z "$(docker ps -q --filter "name=${container_name}")" ]; then
 		--env "VIRTUAL_PORT=3000" \
 		--env "LETSENCRYPT_HOST=${domain_name}" \
 		--volume "${storage}:/home/project" \
-		--volume /app/ssh:/home/theia/.ssh \
+		--volume /app/ssh:/home/coder/.ssh \
 		--name "$container_name" \
 		editor
 fi

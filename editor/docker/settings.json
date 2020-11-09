@@ -1,0 +1,6 @@
+{
+	"java.semanticHighlighting.enabled": true,
+	"workbench.colorTheme": "Default Dark+",
+	"window.menuBarVisibility": "visible",
+	"github.gitAuthentication": false
+}

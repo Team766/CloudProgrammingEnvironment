@@ -10,7 +10,7 @@ domain_name="${instance_name}.code.team766.com"
 
 if [ ! -d "$storage" ]; then
         git clone https://github.com/Team766/MaroonFramework.git "$storage" || { rm -rf "$storage"; exit 1; }
-	chown -R theia:theia "$storage"
+	chown -R coder:coder "$storage"
 fi
 
 if [ -z "$(docker ps -q --filter "name=${container_name}")" ]; then

@@ -24,9 +24,23 @@ rm -rf webgl/
 cp -r $sim_build_dir/webgl/ webgl
 docker build -t localhost:5000/frc2020-sim-web:$version .
 
-ssh -L 5000:localhost:5000 root@$hostname
+ssh -N -L 5000:localhost:5000 root@$hostname &
+tunnel_pid=$!
+trap "kill $tunnel_pid" EXIT
+# Wait for SSH to connect
+sleep 10
+
 docker push localhost:5000/frc2020-sim-web:$version
 docker push localhost:5000/frc2020-sim:$version
+
+ssh root@$hostname \
+  docker stop sim
+ssh root@$hostname \
+  docker stop sim-web
+ssh root@$hostname \
+  docker rm sim
+ssh root@$hostname \
+  docker rm sim-web
 
 ssh root@$hostname \
   docker run -d \

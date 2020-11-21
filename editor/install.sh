@@ -4,6 +4,8 @@
 
 set -euo pipefail
 
-scp -r . root@code.team766.com:
+hostname=$1
 
-ssh root@code.team766.com ./setup.sh
+scp -r . root@${hostname}:
+
+ssh root@${hostname} ./setup.sh

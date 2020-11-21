@@ -24,5 +24,6 @@ cd $script_dir/http/
 rm -rf webgl/
 cp -r $sim_build_dir/webgl/ webgl
 docker build -t localhost:5000/frc2020-sim-web:$version .
+rm -rf webgl/
 
 $script_dir/push_dockers.sh $version $hostname

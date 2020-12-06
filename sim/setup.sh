@@ -31,6 +31,7 @@ docker run -d \
   --restart=always \
   --env "VIRTUAL_HOST=${domain_name}" \
   --env "VIRTUAL_PORT=80" \
+  --env "HTTPS_METHOD=nohttps" \
   --env "LETSENCRYPT_HOST=${domain_name}" \
   --log-driver json-file --log-opt max-size=10m --log-opt max-file=10 \
   team766/2020sim:0.19.4-web

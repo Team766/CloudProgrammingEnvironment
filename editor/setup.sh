@@ -19,16 +19,18 @@ apt install -y docker.io
 
 systemctl enable docker
 
-docker run --detach \
-  --restart=always \
-  --publish 80:80 \
-  --publish 443:443 \
-  --volume /var/run/docker.sock:/tmp/docker.sock:ro \
-  --volume /etc/nginx/certs \
-  --volume /etc/nginx/vhost.d \
-  --volume /usr/share/nginx/html \
-  --name nginx-proxy \
-  jwilder/nginx-proxy
+if [ -z "$(docker ps -q --filter "name=^nginx-proxy\$")" ]; then
+  docker run --detach \
+    --restart=always \
+    --publish 80:80 \
+    --publish 443:443 \
+    --volume /var/run/docker.sock:/tmp/docker.sock:ro \
+    --volume /etc/nginx/certs \
+    --volume /etc/nginx/vhost.d \
+    --volume /usr/share/nginx/html \
+    --name nginx-proxy \
+    jwilder/nginx-proxy
+fi
 
 docker run --detach \
     --restart=always \

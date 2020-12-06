@@ -9,7 +9,6 @@ hostname=$1
 
 script_dir="$( cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
 
-scp $script_dir/launch_robot_code.sh root@${hostname}:/usr/local/bin
-
+scp $script_dir/launch_robot_code.sh root@${hostname}:
 scp $script_dir/setup.sh root@${hostname}:
-ssh root@$hostname ./setup.sh
+ssh root@$hostname ./setup.sh ${hostname}

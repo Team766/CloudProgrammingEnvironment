@@ -6,10 +6,12 @@ set -euo pipefail
 
 adduser --disabled-password --gecos '' coder
 
-mkdir /app
-mkdir /app/ssh
+mkdir -p /app/ssh
 ssh-keygen -f /app/ssh/id_rsa -t rsa -b 4096 -q -N ""
 chown -R coder:coder /app
+
+mkdir -p /mnt/code_storage
+chown -R coder:coder /mnt/code_storage
 
 apt update
 apt install -y docker.io

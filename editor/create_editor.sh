@@ -16,7 +16,9 @@ if [ ! -d "$storage" ]; then
 fi
 
 if [ -z "$(docker ps -q --filter "name=${container_name}")" ]; then
-        docker run -d --rm \
+        docker run -d \
+		--restart=always \
+		--log-driver json-file --log-opt max-size=10m --log-opt max-file=10 \
 		--env "VIRTUAL_HOST=${domain_name}" \
 		--env "VIRTUAL_PORT=3000" \
 		--env "LETSENCRYPT_HOST=${domain_name}" \

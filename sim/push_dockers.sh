@@ -19,6 +19,7 @@ sleep 10
 
 docker push localhost:5000/frc2020-sim-web:$version
 docker push localhost:5000/frc2020-sim:$version
+docker push localhost:5000/robot_code:latest
 
 ssh root@$hostname \
   docker stop sim

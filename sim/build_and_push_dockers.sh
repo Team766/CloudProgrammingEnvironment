@@ -26,11 +26,16 @@ cp -r $sim_build_dir/webgl/ webgl
 docker build -t localhost:5000/frc2020-sim-web:$version .
 rm -rf webgl/
 
+cd $script_dir/robot_code/docker
+docker build -t localhost:5000/robot_code:latest .
+
 if [ -n "$hostname" ]; then
   $script_dir/push_dockers.sh $version $hostname
 fi
 
 docker tag localhost:5000/frc2020-sim-web:$version team766/2020sim:${version}-web
 docker tag localhost:5000/frc2020-sim:$version team766/2020sim:${version}-sim
+docker tag localhost:5000/robot_code:latest team766/robot-code:latest
 docker push team766/2020sim:${version}-web
 docker push team766/2020sim:${version}-sim
+docker push team766/robot-code:latest

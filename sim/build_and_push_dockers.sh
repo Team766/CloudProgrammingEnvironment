@@ -14,7 +14,7 @@ version=$1
 # The directory containing the builds of the Unity simulator project
 sim_build_dir=$2
 # The hostname of the remote simulator VM
-hostname=$3
+hostname=${3-}
 
 script_dir="$( cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
 
@@ -26,4 +26,11 @@ cp -r $sim_build_dir/webgl/ webgl
 docker build -t localhost:5000/frc2020-sim-web:$version .
 rm -rf webgl/
 
-$script_dir/push_dockers.sh $version $hostname
+if [ -n "$hostname" ]; then
+  $script_dir/push_dockers.sh $version $hostname
+fi
+
+docker tag localhost:5000/frc2020-sim-web:$version team766/2020sim:${version}-web
+docker tag localhost:5000/frc2020-sim:$version team766/2020sim:${version}-sim
+docker push team766/2020sim:${version}-web
+docker push team766/2020sim:${version}-sim

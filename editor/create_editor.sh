@@ -16,7 +16,7 @@ if [ ! -d "$storage" ]; then
 	chown -R coder:coder "$storage"
 fi
 
-if [ -z "$(docker ps -q --filter "name=${container_name}")" ]; then
+if [ -z "$(docker ps -q --filter "name=^${container_name}\$")" ]; then
         docker run -d \
 		--restart=always \
 		--log-driver json-file --log-opt max-size=10m --log-opt max-file=10 \

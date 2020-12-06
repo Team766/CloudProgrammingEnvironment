@@ -11,6 +11,7 @@ ssh-keygen -f /app/ssh/id_rsa -t rsa -b 4096 -q -N ""
 chown -R coder:coder /app
 
 mkdir -p /mnt/code_storage
+touch /mnt/code_storage/sim_robots.lst
 chown -R coder:coder /mnt/code_storage
 
 apt update

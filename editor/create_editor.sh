@@ -6,7 +6,8 @@ set -x
 instance_name="$1"
 host_name="$2"
 
-storage="/mnt/code_storage/${instance_name}"
+storage_root="/mnt/code_storage"
+storage="${storage_root}/${instance_name}"
 container_name="code.${instance_name}"
 domain_name="${instance_name}.${host_name}"
 
@@ -25,6 +26,7 @@ if [ -z "$(docker ps -q --filter "name=${container_name}")" ]; then
 		--env "EDITOR_USER_NAME=${instance_name}" \
 		--env "EDITOR_USER_EMAIL=${instance_name}@${host_name}" \
 		--volume "${storage}:/home/project" \
+		--volume "${storage_root}/sim_robots.lst:/home/project/sim_robots.lst" \
 		--volume /app/ssh:/home/coder/.ssh \
 		--name "$container_name" \
 		editor

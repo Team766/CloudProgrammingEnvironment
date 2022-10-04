@@ -17,7 +17,7 @@ if [ ! -d "$storage" ]; then
 fi
 
 if [ -z "$(docker ps -q --filter "name=^${container_name}\$")" ]; then
-        docker run -d \
+	docker run -d \
 		--restart=always \
 		--log-driver json-file --log-opt max-size=10m --log-opt max-file=10 \
 		--env "VIRTUAL_HOST=${domain_name}" \
@@ -31,3 +31,9 @@ if [ -z "$(docker ps -q --filter "name=^${container_name}\$")" ]; then
 		--name "$container_name" \
 		editor
 fi
+
+while [[ "$(curl -s -o /dev/null -w '%{http_code}' "https://${domain_name}/?folder=/home/project")" != "200" ]]; do
+	docker logs "$container_name"
+	echo "Waiting for service to start on https://${domain_name}"
+	sleep 5;
+done

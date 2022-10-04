@@ -19,3 +19,5 @@ docker run \
 	--network=container:sim \
 	-v "$deployed_code":/home/frc/code \
 	localhost:5000/robot_code:latest
+
+find /tmp/project-* -maxdepth 0 -mmin +5 -exec rm -r {} \;

@@ -2,13 +2,13 @@ FROM ubuntu:bionic
 #FROM codercom/code-server:latest
 
 RUN apt-get update && \
-  apt-get install -y curl gnupg2 apt-transport-https maven gradle openjdk-11-jdk-headless rsync git && \
+  apt-get install -y curl gnupg2 apt-transport-https maven gradle openjdk-17-jdk-headless rsync git && \
   rm -rf /var/lib/apt/lists/*
 
 SHELL ["/bin/bash", "-c"]
 ENV SHELL=/bin/bash
 
-RUN set -euo pipefail && curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 3.6.1
+RUN set -euo pipefail && curl -fsSL https://code-server.dev/install.sh | sh -s -- --version 4.7.1
 
 ARG uid=1000
 RUN adduser --uid $uid --disabled-password --gecos '' coder

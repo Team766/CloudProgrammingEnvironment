@@ -9,7 +9,7 @@ domain_name="$1"
 script_dir="$( cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
 
 apt update
-apt install -y docker.io
+env DEBIAN_FRONTEND=noninteractive apt install -y docker.io
 
 systemctl enable docker
 

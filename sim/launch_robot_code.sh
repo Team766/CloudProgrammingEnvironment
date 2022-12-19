@@ -18,6 +18,6 @@ docker run \
 	--log-driver json-file --log-opt max-size=10m --log-opt max-file=10 \
 	--network=container:sim \
 	-v "$deployed_code":/home/frc/code \
-	localhost:5000/robot_code:latest
+	team766/robot-code
 
 find /tmp/project-* -maxdepth 0 -mmin +5 -exec rm -r {} \;

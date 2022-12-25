@@ -63,8 +63,9 @@ def create_upload_file(package: UploadFile):
         print("Cleaning old robot code", file=sys.stderr)
         subprocess.check_call([
             "find",
-            f"{ROBOT_CODE_VOLUME}/{ROBOT_CODE_PREFIX}*",
-            "-maxdepth", "0",
+            ROBOT_CODE_VOLUME,
+            "-maxdepth", "1",
+            "-name", f"{ROBOT_CODE_PREFIX}*",
             "-mmin", "+5",
             "-exec", "rm", "-r", "{}", ";",
         ])

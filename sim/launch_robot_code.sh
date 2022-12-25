@@ -8,7 +8,7 @@ deployed_code="$1"
 chmod -R a+rw "$deployed_code"
 
 # Stop previous robot code instance
-[ -z "$(docker ps -q --filter "name=robot_code")" ] || docker stop robot_code
+[ -z "$(docker ps -q --filter 'name=^robot_code$')" ] || docker stop robot_code
 
 # Start new instance
 docker run \

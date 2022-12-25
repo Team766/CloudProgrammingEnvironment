@@ -30,7 +30,7 @@ def create_upload_file(package: UploadFile):
 
     # Stop previous robot code instance
     if subprocess.check_output(
-        ["docker", "ps", "-q", "--filter", "name=robot_code"],
+        ["docker", "ps", "-q", "--filter", "name=^robot_code$"],
         universal_newlines=True,
     ).strip():
         print("Stopping previous robot code instance", file=sys.stderr)

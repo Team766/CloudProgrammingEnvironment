@@ -5,10 +5,11 @@
 
 set -euo pipefail
 
-hostname=$1
+hostname="$1"
+shift
 
 script_dir="$( cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
 
-scp $script_dir/launch_robot_code.sh root@${hostname}:
-scp $script_dir/setup.sh root@${hostname}:
-ssh root@$hostname ./setup.sh ${hostname}
+scp "$script_dir/launch_robot_code.sh" "root@${hostname}:"
+scp "$script_dir/setup.sh" "root@${hostname}:"
+ssh "root@$hostname" ./setup.sh "${hostname}" "$@"

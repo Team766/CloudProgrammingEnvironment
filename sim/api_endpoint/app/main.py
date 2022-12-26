@@ -53,7 +53,7 @@ def create_upload_file(package: UploadFile):
         "--log-opt", "max-file=10",
         "--network=container:sim",
         "-v", f"{host_deployed_code}:/home/frc/code",
-        "team766/robot-code",
+        "team766/robot-code:active",
     ]
     print("Starting robot code", file=sys.stderr)
     print(docker_cmd, file=sys.stderr)

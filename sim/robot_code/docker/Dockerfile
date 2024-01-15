@@ -1,4 +1,4 @@
-FROM adoptopenjdk:14-jre-hotspot-bionic
+FROM FROM eclipse-temurin:17-jre-focal
 
 RUN adduser --disabled-password --gecos '' frc
 

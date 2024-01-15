@@ -1,4 +1,4 @@
-FROM FROM eclipse-temurin:17-jre-focal
+FROM eclipse-temurin:17-jre-focal
 
 RUN adduser --disabled-password --gecos '' frc
 
